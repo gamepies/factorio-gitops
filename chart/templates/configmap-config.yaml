@@ -28,5 +28,4 @@ data:
 {{- if .Values.factorio.serverWhitelist }}
 {{ toJson .Values.factorio.serverWhitelist | indent 4 }}
 {{- end }}
-  config.ini: |
-  
+
