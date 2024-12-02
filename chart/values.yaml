@@ -17,6 +17,7 @@ ports:
   tcp: 32418
 
 environment:
+  BIND: 35.210.13.68
   LOAD_LATEST_SAVE: true
   GENERATE_NEW_SAVE: true
   SAVE_NAME: JaperEnTeunInEenRaket
