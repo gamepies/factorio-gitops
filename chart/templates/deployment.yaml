@@ -28,8 +28,8 @@ spec:
         - /bin/sh
         - -c
         - |
-          cp /opt/factorio/config/server-settings.json /tmp/server-settings.json && \
-          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /tmp/server-settings.json > /opt/factorio/config/server-settings.json
+          cp /config-source/server-settings.json /config-adjusted/server-settings.json && \
+          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json
         env:
         - name: ACCOUNT_PASSWORD
           valueFrom:
@@ -42,8 +42,10 @@ spec:
               name: {{ .Chart.Name }}-credentials
               key: gamePassword
         volumeMounts:
-        - name: config
-          mountPath: /opt/factorio/config
+        - name: config-source
+          mountPath: /config-source
+        - name: config-adjusted
+          mountPath: /config-adjusted
       containers:
       - image: 'factoriotools/factorio:{{ .Values.image.tag }}'
         name: {{ .Release.Name }}
@@ -74,14 +76,16 @@ spec:
             cpu: {{ .Values.pod.resources.cpu.request }}
             memory: {{ .Values.pod.resources.memory.request }}
         volumeMounts:
-        - name: config
+        - name: config-adjusted
           mountPath: /opt/factorio/config
         - name: saves
           mountPath: /opt/factorio/saves
       volumes:
-      - name: config
+      - name: config-source
         configMap:
           name: {{ .Release.Name }}-config
+      - name: config-adjusted
+        emptyDir: {}
       - name: saves
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-saves-claim
