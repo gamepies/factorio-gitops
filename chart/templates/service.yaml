@@ -6,12 +6,12 @@ spec:
   type: NodePort
   ports:
   - name: factorio-udp
-    nodePort: 32416
+    nodePort: {{ .Values.ports.udp }}
     port: 34197
     protocol: UDP
     targetPort: server
   - name: factorio-tcp
-    nodePort: 32417
+    nodePort:  {{ .Values.ports.tcp }}
     port: 27015
     protocol: TCP
     targetPort: server

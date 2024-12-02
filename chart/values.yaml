@@ -12,6 +12,9 @@ pod:
       limit: 8192Mi
       request: 512Mi
 
+ports:
+  udp: 32417
+  tcp: 32418
 
 environment:
   LOAD_LATEST_SAVE: true
