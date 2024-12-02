@@ -42,8 +42,8 @@ spec:
               name: {{ .Chart.Name }}-credentials
               key: gamePassword
         volumeMounts:
-        - name: server-settings
-          mountPath: /config
+        - name: config
+          mountPath: /opt/factorio/config
       containers:
       - image: 'factoriotools/factorio:{{ .Values.image.tag }}'
         name: {{ .Release.Name }}
