@@ -67,7 +67,7 @@ spec:
         - name: "PORT"
           value: "{{ .Values.ports.udp }}"
         - name: "BIND"
-          value: "0.0.0.0" 
+          value: "35.210.13.68" 
         - name: "DLC_SPACE_AGE" 
           value: {{ .Values.environment.DLC_SPACE_AGE | quote}}
         - name: "LOAD_LATEST_SAVE"
