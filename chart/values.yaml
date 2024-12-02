@@ -212,7 +212,7 @@ factorio:
     #'lan: Game will be broadcast on LAN'
     "visibility":
       "public": true
-      "lan": true
+      "lan": false
     #Your factorio.com login credentials. Required for games with visibility public.
     "username": 'Malser'
     "password": ''
