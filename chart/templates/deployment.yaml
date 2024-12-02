@@ -40,8 +40,7 @@ spec:
           jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json > /config-adjusted/server-settings.tmp && \
           mv /config-adjusted/server-settings.tmp /config-adjusted/server-settings.json && \
           chown -R 845:845 /config-adjusted && \
-          ls -lah /config-adjusted && \
-          sleep infinity
+          ls -lah /config-adjusted
         env:
         - name: ACCOUNT_PASSWORD
           valueFrom:
@@ -58,8 +57,6 @@ spec:
           mountPath: /config-source
         - name: config-adjusted
           mountPath: /config-adjusted
-        - name: saves
-          mountPath: /factorio/saves
       containers:
       - image: 'factoriotools/factorio:{{ .Values.image.tag }}'
         name: {{ .Release.Name }}
