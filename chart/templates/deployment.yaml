@@ -16,12 +16,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/map-gen-settings: {{ include (print $.Template.BasePath "/configmap-map-gen-settings.yaml") . | sha256sum }}
-        checksum/map-settings: {{ include (print $.Template.BasePath "/configmap-map-settings.yaml") . | sha256sum }}
-        checksum/server-adminlist: {{ include (print $.Template.BasePath "/configmap-server-adminlist.yaml") . | sha256sum }}
-        checksum/server-banlist: {{ include (print $.Template.BasePath "/configmap-server-banlist.yaml") . | sha256sum }}
-        checksum/server-settings: {{ include (print $.Template.BasePath "/configmap-server-settings.yaml") . | sha256sum }}
-        checksum/server-whitelist: {{ include (print $.Template.BasePath "/configmap-server-whitelist.yaml") . | sha256sum }}
+        checksum/configmap-config: {{ include (print $.Template.BasePath "/configmap-config.yaml") . | sha256sum }}
       labels:
         app: {{ .Release.Name }}
     spec:
