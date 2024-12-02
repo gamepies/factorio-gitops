@@ -88,9 +88,9 @@ spec:
             memory: {{ .Values.pod.resources.memory.request }}
         volumeMounts:
         - name: config-adjusted
-          mountPath: /opt/factorio/config
+          mountPath: /factorio/config
         - name: saves
-          mountPath: /opt/factorio/saves
+          mountPath: /factorio/saves
       volumes:
       - name: config-source
         configMap:
