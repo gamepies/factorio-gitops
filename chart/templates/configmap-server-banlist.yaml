@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-server-banlist
+  namespace: {{ .Release.Namespace }}
+data:
+  server-whitelist.json: |
+{{- if .Values.factorio.serverBanlist }}
+{{ toJson .Values.factorio.serverBanlist | indent 4 }}
+{{- end }}

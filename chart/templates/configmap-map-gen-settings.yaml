@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-map-gen-settings
+  namespace: {{ .Release.Namespace }}
+data:
+  map-gen-settings.json: |
+{{- if .Values.factorio.mapGenSettings }}
+{{ toJson .Values.factorio.mapGenSettings | indent 4 }}
+{{- end }}

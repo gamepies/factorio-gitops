@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-map-settings
+  namespace: {{ .Release.Namespace }}
+data:
+  map-settings.json: |
+{{- if .Values.factorio.mapSettings }}
+{{ toJson .Values.factorio.mapSettings | indent 4 }}
+{{- end }}

@@ -1,0 +1,118 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Release.Name }}
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  securityContext:
+    runAsUser: 845
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        checksum/map-gen-settings: {{ include (print $.Template.BasePath "/configmap-map-gen-settings.yaml") . | sha256sum }}
+        checksum/map-settings: {{ include (print $.Template.BasePath "/configmap-map-settings.yaml") . | sha256sum }}
+        checksum/server-adminlist: {{ include (print $.Template.BasePath "/configmap-server-adminlist.yaml") . | sha256sum }}
+        checksum/server-banlist: {{ include (print $.Template.BasePath "/configmap-server-banlist.yaml") . | sha256sum }}
+        checksum/server-settings: {{ include (print $.Template.BasePath "/configmap-server-settings.yaml") . | sha256sum }}
+        checksum/server-whitelist: {{ include (print $.Template.BasePath "/configmap-server-whitelist.yaml") . | sha256sum }}
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      serviceAccountName: {{ .Release.Name }}
+      initContainers:
+      - name: initialize-credentials
+        image: busybox
+        command:
+        - /bin/sh
+        - -c
+        - |
+          cp /config/server-settings.json /tmp/server-settings.json && \
+          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /tmp/server-settings.json > /config/server-settings.json
+        env:
+        - name: ACCOUNT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Chart.Name }}-credentials
+              key: accountPassword
+        - name: GAME_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Chart.Name }}-credentials
+              key: gamePassword
+        volumeMounts:
+        - name: server-settings
+          mountPath: /config
+      containers:
+      - image: 'factoriotools/factorio:{{ .Values.image.tag }}'
+        name: {{ .Release.Name }}
+        imagePullPolicy: IfNotPresent
+        tty: {{ .Values.pod.isTtyEnabled }}
+        stdin: {{ .Values.pod.isStdinEnabled }}
+        env:
+        - name: "DLC_SPACE_AGE" 
+          value: {{ .Values.environment.DLC_SPACE_AGE | quote}}
+        - name: "LOAD_LATEST_SAVE"
+          value: {{ .Values.environment.LOAD_LATEST_SAVE | quote }}
+        - name: "GENERATE_NEW_SAVE"
+          value: {{ .Values.environment.GENERATE_NEW_SAVE | quote }}
+        - name: "SAVE_NAME"
+          value: {{ .Values.environment.SAVE_NAME }}
+        ports:
+        - name: udp
+          containerPort: 34197
+          protocol: UDP
+        - name: tcp
+          containerPort: 27015
+          protocol: TCP
+        resources:
+          limits:
+            cpu: {{ .Values.pod.resources.cpu.limit }}
+            memory: {{ .Values.pod.resources.memory.limit }}
+          requests:
+            cpu: {{ .Values.pod.resources.cpu.request }}
+            memory: {{ .Values.pod.resources.memory.request }}
+        volumeMounts:
+        - name: map-gen-settings
+          mountPath: /opt/factorio/config
+          subPath: map-gen-settings.json
+        - name: map-settings
+          mountPath: /opt/factorio/config
+          subPath: map-settings.json
+        - name: server-adminlist
+          mountPath: /opt/factorio/config
+          subPath: server-adminlist.json
+        - name: server-banlist
+          mountPath: /opt/factorio/config
+          subPath: server-banlist.json
+        - name: server-whitelist
+          mountPath: /opt/factorio/config
+          subPath: server-whitelist.json
+        - name: server-settings
+          mountPath: /opt/factorio/config
+          subPath: server-settings.json
+      volumes:
+      - name: map-gen-settings
+        configMap:
+          name: {{ .Release.Name }}-map-gen-settings
+      - name: map-settings
+        configMap:
+          name: {{ .Release.Name }}-map-settings
+      - name: server-adminlist
+        configMap:
+          name: {{ .Release.Name }}-server-adminlist
+      - name: server-banlist
+        configMap:
+          name: {{ .Release.Name }}-server-banlist
+      - name: server-whitelist
+        configMap:
+          name: {{ .Release.Name }}-server-whitelist
+      - name: server-settings
+        configMap:
+          name: {{ .Release.Name }}-server-settings
