@@ -6,11 +6,11 @@ pod:
   isStdinEnabled: true
   resources:
     cpu:
+      request: 128m
       limit: 4
-      request: 1
     memory:
-      limit: 8192Mi
       request: 512Mi
+      limit: 8192Mi
 
 ports:
   udp: 32417
