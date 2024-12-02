@@ -23,7 +23,7 @@ spec:
       serviceAccountName: {{ .Release.Name }}
       initContainers:
       - name: initialize-credentials
-        image: busybox
+        image: imega/jq:latest
         command:
         - /bin/sh
         - -c
