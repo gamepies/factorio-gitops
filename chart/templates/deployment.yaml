@@ -58,6 +58,8 @@ spec:
           mountPath: /config-source
         - name: config-adjusted
           mountPath: /config-adjusted
+        - name: saves
+          mountPath: /factorio/saves
       containers:
       - image: 'factoriotools/factorio:{{ .Values.image.tag }}'
         name: {{ .Release.Name }}
