@@ -21,6 +21,8 @@ spec:
         app: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ .Release.Name }}
+      securityContext:
+        fsGroup: 845
       initContainers:
       - name: initialize-credentials
         image: alpine:latest
@@ -33,8 +35,7 @@ spec:
           ls -lah /config-source && \
           ls -lah /config-adjusted && \
           jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json > /config-adjusted/server-settings.tmp && \
-          mv /config-adjusted/server-settings.tmp /config-adjusted/server-settings.json && \
-          chmod -R 777 /config-adjusted
+          mv /config-adjusted/server-settings.tmp /config-adjusted/server-settings.json && 
         env:
         - name: ACCOUNT_PASSWORD
           valueFrom:
