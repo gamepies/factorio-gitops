@@ -28,4 +28,12 @@ data:
 {{- if .Values.factorio.serverWhitelist }}
 {{ toJson .Values.factorio.serverWhitelist | indent 4 }}
 {{- end }}
+  config.ini: |
+    [path]
+    read-data=/factorio
+    write-data=/factorio
 
+    [general]
+    locale=auto
+
+    [other]
