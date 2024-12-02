@@ -26,11 +26,14 @@ spec:
       initContainers:
       - name: initialize-credentials
         image: alpine:latest
+        securityContext:
+          allowPrivilegeEscalation: false
+          runAsUser: 0
         command:
         - /bin/sh
         - -c
         - |
-          sudo apk add --no-cache jq && \
+          apk add --no-cache jq && \
           cp -rL /config-source/* /config-adjusted && \
           ls -lah /config-source && \
           ls -lah /config-adjusted && \
