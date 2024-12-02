@@ -97,6 +97,8 @@ spec:
         - name: server-settings
           mountPath: /opt/factorio/config
           subPath: server-settings.json
+        - name: saves
+          mountPath: /opt/factorio/saves
       volumes:
       - name: map-gen-settings
         configMap:
@@ -116,3 +118,7 @@ spec:
       - name: server-settings
         configMap:
           name: {{ .Release.Name }}-server-settings
+      - name: saves
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-saves-claim
+

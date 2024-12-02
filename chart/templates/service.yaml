@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}
+spec:
+  type: NodePort
+  ports:
+  - name: factorio-udp
+    nodePort: 34197
+    port: 34197
+    protocol: UDP
+    targetPort: server
+  - name: factorio-tcp
+    nodePort: 27015
+    port: 27015
+    protocol: TCP
+    targetPort: server
+  selector:
+    app: {{ .Release.Name }}
