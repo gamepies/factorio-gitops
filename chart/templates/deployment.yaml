@@ -28,8 +28,8 @@ spec:
         - /bin/sh
         - -c
         - |
-          cp /config/server-settings.json /tmp/server-settings.json && \
-          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /tmp/server-settings.json > /config/server-settings.json
+          cp /opt/factorio/config/server-settings.json /tmp/server-settings.json && \
+          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /tmp/server-settings.json > /opt/factorio/config/server-settings.json
         env:
         - name: ACCOUNT_PASSWORD
           valueFrom:
