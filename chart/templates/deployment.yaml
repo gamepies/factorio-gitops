@@ -64,8 +64,6 @@ spec:
         tty: {{ .Values.pod.isTtyEnabled }}
         stdin: {{ .Values.pod.isStdinEnabled }}
         env:
-        - name: "BIND"
-          value: {{ .Values.environment.BIND }}
         - name: "DLC_SPACE_AGE" 
           value: {{ .Values.environment.DLC_SPACE_AGE | quote}}
         - name: "LOAD_LATEST_SAVE"
