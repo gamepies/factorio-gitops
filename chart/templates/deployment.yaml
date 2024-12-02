@@ -30,7 +30,8 @@ spec:
         - |
           apk add --no-cache jq && \
           cp /config-source/server-settings.json /config-adjusted/server-settings.json && \
-          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json
+          jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json > /config-adjusted/server-settings.tmp && \
+          mv /config-adjusted/server-settings.tmp /config-adjusted/server-settings.json
         env:
         - name: ACCOUNT_PASSWORD
           valueFrom:
