@@ -38,7 +38,8 @@ spec:
           ls -lah /config-source && \
           ls -lah /config-adjusted && \
           jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json > /config-adjusted/server-settings.tmp && \
-          mv /config-adjusted/server-settings.tmp /config-adjusted/server-settings.json
+          mv /config-adjusted/server-settings.tmp /config-adjusted/server-settings.json && \
+          chown -r 845:845 /opt/factorio
         env:
         - name: ACCOUNT_PASSWORD
           valueFrom:
