@@ -23,11 +23,12 @@ spec:
       serviceAccountName: {{ .Release.Name }}
       initContainers:
       - name: initialize-credentials
-        image: imega/jq:latest
+        image: alpine:latest
         command:
         - /bin/sh
         - -c
         - |
+          apk add --no-cache jq && \
           cp /config-source/server-settings.json /config-adjusted/server-settings.json && \
           jq '.password = env.ACCOUNT_PASSWORD | .game_password = env.GAME_PASSWORD' /config-adjusted/server-settings.json
         env:
