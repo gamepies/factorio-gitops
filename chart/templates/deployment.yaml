@@ -8,6 +8,8 @@ metadata:
 spec:
   securityContext:
     runAsUser: 845
+    runAsGroup: 845
+    fsGroup: 845
   selector:
     matchLabels:
       app: {{ .Release.Name }}
@@ -21,8 +23,6 @@ spec:
         app: {{ .Release.Name }}
     spec:
       serviceAccountName: {{ .Release.Name }}
-      securityContext:
-        fsGroup: 845
       initContainers:
       - name: initialize-credentials
         image: alpine:latest
