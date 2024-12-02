@@ -64,6 +64,8 @@ spec:
         tty: {{ .Values.pod.isTtyEnabled }}
         stdin: {{ .Values.pod.isStdinEnabled }}
         env:
+        - name: "PORT"
+          value: {{ .Values.ports.udp | quote }}
         - name: "DLC_SPACE_AGE" 
           value: {{ .Values.environment.DLC_SPACE_AGE | quote}}
         - name: "LOAD_LATEST_SAVE"
