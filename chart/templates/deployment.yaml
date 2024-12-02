@@ -30,7 +30,7 @@ spec:
         - /bin/sh
         - -c
         - |
-          apk add --no-cache jq && \
+          sudo apk add --no-cache jq && \
           cp -rL /config-source/* /config-adjusted && \
           ls -lah /config-source && \
           ls -lah /config-adjusted && \
