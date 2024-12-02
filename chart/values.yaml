@@ -1,13 +1,17 @@
-resources:
-  cpu:
-    limit: 4
-    request: 1
-  memory:
-    limit: 8192Mi
-    request: 512Mi
-
 image:
   tag: 2.0
+
+pod:
+  isTtyEnabled: true
+  isStdinEnabled: true
+  resources:
+    cpu:
+      limit: 4
+      request: 1
+    memory:
+      limit: 8192Mi
+      request: 512Mi
+
 
 environment:
   LOAD_LATEST_SAVE: true
