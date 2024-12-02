@@ -9,11 +9,11 @@ spec:
     nodePort: {{ .Values.ports.udp }}
     port: 34197
     protocol: UDP
-    targetPort: server
+    targetPort: 34197
   - name: factorio-tcp
     nodePort:  {{ .Values.ports.tcp }}
     port: 27015
     protocol: TCP
-    targetPort: server
+    targetPort: 27015
   selector:
     app: {{ .Release.Name }}
