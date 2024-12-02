@@ -74,45 +74,14 @@ spec:
             cpu: {{ .Values.pod.resources.cpu.request }}
             memory: {{ .Values.pod.resources.memory.request }}
         volumeMounts:
-        - name: map-gen-settings
+        - name: config
           mountPath: /opt/factorio/config
-          subPath: map-gen-settings.json
-        - name: map-settings
-          mountPath: /opt/factorio/config
-          subPath: map-settings.json
-        - name: server-adminlist
-          mountPath: /opt/factorio/config
-          subPath: server-adminlist.json
-        - name: server-banlist
-          mountPath: /opt/factorio/config
-          subPath: server-banlist.json
-        - name: server-whitelist
-          mountPath: /opt/factorio/config
-          subPath: server-whitelist.json
-        - name: server-settings
-          mountPath: /opt/factorio/config
-          subPath: server-settings.json
         - name: saves
           mountPath: /opt/factorio/saves
       volumes:
-      - name: map-gen-settings
+      - name: config
         configMap:
-          name: {{ .Release.Name }}-map-gen-settings
-      - name: map-settings
-        configMap:
-          name: {{ .Release.Name }}-map-settings
-      - name: server-adminlist
-        configMap:
-          name: {{ .Release.Name }}-server-adminlist
-      - name: server-banlist
-        configMap:
-          name: {{ .Release.Name }}-server-banlist
-      - name: server-whitelist
-        configMap:
-          name: {{ .Release.Name }}-server-whitelist
-      - name: server-settings
-        configMap:
-          name: {{ .Release.Name }}-server-settings
+          name: {{ .Release.Name }}-config
       - name: saves
         persistentVolumeClaim:
           claimName: {{ .Release.Name }}-saves-claim
