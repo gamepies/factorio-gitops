@@ -220,6 +220,8 @@ factorio:
     #Authentication token. May be used instead of 'password' above.
     "token": ''
     "game_password": ''
+    "public_address": "35.210.13.68"
+    "public_port": 32417
     #When set to true, the server will only allow clients that have a valid Factorio.com account
     "require_user_verification": true
     #optional, default value is 0. 0 means unlimited.

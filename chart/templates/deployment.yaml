@@ -65,9 +65,9 @@ spec:
         stdin: {{ .Values.pod.isStdinEnabled }}
         env:
         - name: "PORT"
-          value: "{{ .Values.ports.udp }}"
+          value: "34197"
         - name: "BIND"
-          value: "35.210.13.68" 
+          value: "0.0.0.0" 
         - name: "DLC_SPACE_AGE" 
           value: {{ .Values.environment.DLC_SPACE_AGE | quote}}
         - name: "LOAD_LATEST_SAVE"
